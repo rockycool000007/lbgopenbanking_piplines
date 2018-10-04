@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage("clone the code") {
+            steps {
+                git branch: 'master', url: 'https://github.com/lbgopenbanking/AuthService'
+            }
+        }
+    }
+    post {
+        always {  
+            cleanWs()
+        }
+    }
+}
