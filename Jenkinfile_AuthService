@@ -21,7 +21,7 @@ pipeline {
         }
         stage("Unit Test") {
             steps {
-                echo 'DONE'
+                sh "'npm' test"
             }
         }
         stage("Build Image") {
@@ -31,7 +31,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Image') {
+        stage('Publish Image') {
             steps{
                 script {
                     docker.withRegistry( '', registryCredential ) {
