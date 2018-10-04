@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("Clone the Code") {
             steps {
-                git branch: 'master', url: 'https://github.com/lbgopenbanking/AuthService'
+                git branch: 'master', url: 'https://github.com/lbgopenbanking/PayOutPlanService'
             }
         }
         stage("Install dependencies") {
