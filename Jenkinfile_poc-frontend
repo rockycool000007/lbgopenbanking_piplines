@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+    environment {
+        registry = "vinitkumargoel/lbgpoc_poc-frontend"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    }
+    triggers { 
+        pollSCM('H/3 * * * *') 
+    }
+    stages {
+        stage("Clone the Code") {
+            steps {
+                git branch: 'master', url: 'https://github.com/lbgopenbanking/poc-frontend'
+            }
+        }
+        stage("Install dependencies") {
+            steps {
+                sh "'npm' install"
+            }
+        }
+        stage("Build") {
+            steps {
+                sh "'npm' build"
+            }
+        }
+        stage("Unit Test") {
+            steps {
+                sh "'npm' test"
+            }
+        }
+        stage("Build Image") {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Publish Image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {  
+            cleanWs()
+        }
+    }
+}
