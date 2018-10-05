@@ -4,24 +4,14 @@ pipeline {
         registry = "vinitkumargoel/lbgpoc_poc-frontend"
         registryCredential = 'dockerhub'
         dockerImage = ''
-    }
+    } 
     triggers { 
-        pollSCM('H/3 * * * *') 
+        pollSCM('H/1 * * * *') 
     }
     stages {
         stage("Clone the Code") {
             steps {
                 git branch: 'master', url: 'https://github.com/lbgopenbanking/poc-frontend'
-            }
-        }
-        stage("Install dependencies") {
-            steps {
-                sh "'npm' install"
-            }
-        }
-        stage("Build") {
-            steps {
-                sh "'npm' build"
             }
         }
         stage("Unit Test") {
@@ -32,7 +22,7 @@ pipeline {
         stage("Build Image") {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":latest"
                 }
             }
         }
@@ -43,6 +33,12 @@ pipeline {
                         dockerImage.push()
                     }
                 }
+            }
+        }
+        stage('Deploy Code on ENV') {
+            steps{
+                sh "'kubectl' delete replicationcontroller poc-frontend-rc"
+                sh "'kubectl' create -f rc.yml"
             }
         }
     }
