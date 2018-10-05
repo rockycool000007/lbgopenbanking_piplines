@@ -40,6 +40,11 @@ pipeline {
                 }
             }
         }
+        stage('Deploy Code on ENV') {
+            steps{
+                sh "'kubectl' create -f kubectl apply -f rc.yml"
+            }
+        }
     }
     post {
         always {  
