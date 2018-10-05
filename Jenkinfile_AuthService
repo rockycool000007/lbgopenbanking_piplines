@@ -14,11 +14,6 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/lbgopenbanking/AuthService'
             }
         }
-        stage("Install dependencies") {
-            steps {
-                sh "'npm' install"
-            }
-        }
         stage("Unit Test") {
             steps {
                 sh "'npm' test"
