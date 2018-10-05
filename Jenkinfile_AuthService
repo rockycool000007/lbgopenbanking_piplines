@@ -37,32 +37,14 @@ pipeline {
         }
         stage('Deploy Code on ENV') {
             steps{
-                sh 'FILE="rc_2.yml"'
-                sh '/bin/cat <<EOM >$FILE
-                    apiVersion: v1
-                    kind: ReplicationController
-                    metadata:
-                    name: authservice-rc
-                    spec:
-                    replicas: 5
-                    selector:
-                        app: authservice
-                    template:
-                        metadata:
-                        labels:
-                            app: authservice
-                        spec:
-                        containers:
-                            - name: hello-ctr
-                            image: vinitkumargoel/lbgpoc_authservice:$BUILD_NUMBER
-                            ports:
-                                - containerPort: 3000
-                    EOM'
+                writeFile file: "output/usefulfile.txt", text: "This file is useful, need to archive it."
                 sh "'kubectl' apply -f rc_2.yml"
             }
         }
     }
     post {
-        
+        always {  
+            cleanWs()
+        }
     }
 }
