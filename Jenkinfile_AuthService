@@ -6,7 +6,7 @@ pipeline {
         dockerImage = ''
     } 
     triggers { 
-        pollSCM('H/3 * * * *') 
+        pollSCM('H/1 * * * *') 
     }
     stages {
         stage("Clone the Code") {
