@@ -1,22 +1,44 @@
 pipeline {
     agent any
+    environment {
+        registry = "vinitkumargoel/lbgpoc_payoutplanservice"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+    } 
     triggers { 
-        pollSCM('H/3 * * * *') 
+        pollSCM('H/1 * * * *') 
     }
     stages {
         stage("Clone the Code") {
             steps {
-                git branch: 'master', url: 'https://github.com/lbgopenbanking/PayOutPlanService'
+                git branch: 'master', url: 'https://github.com/lbgopenbanking/payoutplanservice'
             }
         }
         stage("Unit Test") {
             steps {
-                echo 'DONE'
+                sh "'npm' test"
             }
         }
-        stage("Deploy on Server") {
+        stage("Build Image") {
             steps {
-                echo 'DONE'
+                script {
+                    dockerImage = docker.build registry + ":latest"
+                }
+            }
+        }
+        stage('Publish Image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Deploy Code on ENV') {
+            steps{
+                sh "'kubectl' delete replicationcontroller payoutplanservice-rc"
+                sh "'kubectl' create -f rc.yml"
             }
         }
     }
