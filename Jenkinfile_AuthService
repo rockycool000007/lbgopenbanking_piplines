@@ -37,8 +37,7 @@ pipeline {
         }
         stage('Deploy Code on ENV') {
             steps{
-                writeFile file: "output/usefulfile.txt", text: "This file is useful, need to archive it."
-                sh "'kubectl' apply -f rc_2.yml"
+                sh "'kubectl' apply -f rc.yml"
             }
         }
     }
