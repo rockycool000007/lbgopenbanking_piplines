@@ -37,7 +37,8 @@ pipeline {
         }
         stage('Deploy Code on ENV') {
             steps{
-                sh "'kubectl' apply -f rc.yml"
+                sh "'kubectl' delete replicationcontroller authservice-rc"
+                sh "'kubectl' create -f rc.yml"
             }
         }
     }
