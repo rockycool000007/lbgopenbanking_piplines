@@ -24,6 +24,11 @@ pipeline {
                 sh "'npm' test"
             }
         }
+        stage("Sonar") {
+            steps {
+                sh "sonar-scanner"
+            }
+        }
         stage("Build Image") {
             steps {
                 script {
