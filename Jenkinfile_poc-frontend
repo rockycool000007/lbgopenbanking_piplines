@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage("Clone the Code") {
             steps {
-                git branch: 'master', url: 'https://github.com/lbgopenbanking/poc-frontend'
+                git branch: 'master', url: 'https://github.com/lbgopenbanking/NewFrontEnd'
             }
         }
         stage("Install Dependency") {
