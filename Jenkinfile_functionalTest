@@ -8,7 +8,7 @@ pipeline {
         }
         stage("Install Dependency") {
             steps {
-                sh "'npm' install"
+                sh "'yarn' install"
             }
         }
         stage("Unit Test") {
