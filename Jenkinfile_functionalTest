@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage("Clone the Code") {
+            steps {
+                git branch: 'master', url: 'https://github.com/vinitkumargoel/functionalTestScripts'
+            }
+        }
+        stage("Install Dependency") {
+            steps {
+                sh "'npm' install"
+            }
+        }
+        stage("Unit Test") {
+            steps {
+                sh "'npm' test"
+            }
+        }
+    }
+    post {
+        always {  
+            cleanWs()
+        }
+    }
+}
