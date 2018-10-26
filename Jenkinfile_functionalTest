@@ -11,7 +11,7 @@ pipeline {
                 sh "'yarn' install"
             }
         }
-        stage("Unit Test") {
+        stage("Run Test") {
             steps {
                 sh "'npm' test"
             }
