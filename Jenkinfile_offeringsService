@@ -51,11 +51,6 @@ pipeline {
                 sh "'kubectl' create -f rc.yml"
             }
         }
-        stage('Functional Testing') {
-            steps{
-                build job: 'Functional Testing'
-            }
-        }
     }
     post {
         always {  
