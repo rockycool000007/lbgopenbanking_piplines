@@ -6,11 +6,6 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/vinitkumargoel/functionalTestScripts'
             }
         }
-        stage("Install Dependency") {
-            steps {
-                sh "'yarn' install"
-            }
-        }
         stage("Run Test") {
             steps {
                 sleep 30
